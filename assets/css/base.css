@@ -1,128 +1,173 @@
 /**
- * 基础样式
- * 包含全局变量、重置样式和通用样式
+ * ========== 基础样式文件 ==========
+ * 功能：定义全局CSS变量、重置样式和通用组件样式
+ * 作用域：整个应用的基础样式层
+ * 关联文件：被所有其他CSS文件引用，为layout.css、chat.css等提供基础变量
+ * 设计理念：现代简约的深色主题，注重可读性和视觉舒适度
  */
 
-/* 全局变量 - 黑色系现代简约风格 */
+/* ========== 全局CSS变量定义 ========== */
+/* 设计系统：统一的颜色规范，便于主题切换和样式维护 */
+/* 命名规范：语义化命名，明确表达颜色用途和层级关系 */
 :root {
-    --primary-color: #007bff;
-    --secondary-color: #2a2a2a;
-    --accent-color: #888888;
-    --text-color: #e0e0e0;
-    --light-text: #f8f9fa;
-    --border-color: #444444;
-    --online-color: #28a745;
-    --offline-color: #dc3545;
-    --user-bubble: #007bff;
-    --agent-bubble: #2a2a2a;
-    --background-dark: #1a1a1a;
-    --background-darker: #121212;
-    --background-lighter: #333333;
-    --hover-color: #3a3a3a;
-    --scrollbar-thumb: #666666;
-    --scrollbar-track: transparent;
+    /* 主色调：用于按钮、链接、强调元素 */
+    --primary-color: #007bff;          /* 蓝色主色，用于CTA按钮和重要交互元素 */
+    
+    /* 辅助色调：用于次要元素和背景 */
+    --secondary-color: #2a2a2a;        /* 深灰色，用于卡片背景和次要按钮 */
+    --accent-color: #888888;           /* 中性灰，用于辅助文本和图标 */
+    
+    /* 文本颜色：不同层级的文本颜色 */
+    --text-color: #e0e0e0;             /* 主要文本颜色，高对比度保证可读性 */
+    --light-text: #f8f9fa;             /* 高亮文本，用于标题和重要信息 */
+    
+    /* 边框和分割线 */
+    --border-color: #444444;           /* 统一的边框颜色，用于分割和框线 */
+    
+    /* 状态指示色：用于成员状态和系统反馈 */
+    --online-color: #28a745;           /* 绿色，表示在线/成功状态 */
+    --offline-color: #dc3545;          /* 红色，表示离线/错误状态 */
+    
+    /* 消息气泡色：区分用户和AI消息 */
+    --user-bubble: #007bff;            /* 用户消息气泡，使用主色调 */
+    --agent-bubble: #2a2a2a;           /* AI智能体消息气泡，使用辅助色 */
+    
+    /* 背景色层级：创建视觉层次和深度感 */
+    --background-dark: #1a1a1a;        /* 主背景色，最深层级 */
+    --background-darker: #121212;      /* 更深背景色，用于模态框遮罩 */
+    --background-lighter: #333333;     /* 较浅背景色，用于悬浮元素 */
+    
+    /* 交互状态色 */
+    --hover-color: #3a3a3a;            /* 悬停状态背景色 */
+    
+    /* 滚动条样式：自定义滚动条外观 */
+    --scrollbar-thumb: #666666;        /* 滚动条滑块颜色 */
+    --scrollbar-track: transparent;    /* 滚动条轨道透明 */
 }
 
-/* 基础样式 */
+/* ========== CSS重置和基础样式 ========== */
+/* 目的：消除浏览器默认样式差异，建立一致的基础样式 */
+/* 影响：为整个应用提供统一的样式起点 */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;                          /* 清除默认外边距 */
+    padding: 0;                         /* 清除默认内边距 */
+    box-sizing: border-box;             /* 使用border-box模型，便于布局计算 */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  /* 统一字体栈，优先现代系统字体 */
 }
 
+/* HTML和Body基础设置：为全屏应用做准备 */
 html, body {
-    height: 100%;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
+    height: 100%;                       /* 占满整个视口高度 */
+    overflow: hidden;                   /* 隐藏页面级滚动条，使用内部滚动 */
+    margin: 0;                          /* 确保无边距 */
+    padding: 0;                         /* 确保无内边距 */
 }
 
+/* Body布局设置：Flexbox主容器 */
 body {
-    display: flex;
-    background-color: var(--background-dark);
-    color: var(--text-color);
-    position: relative;
-    width: 100%;
-    height: 100%;
+    display: flex;                      /* 使用Flexbox布局，支持响应式设计 */
+    background-color: var(--background-dark);  /* 应用深色主题背景 */
+    color: var(--text-color);           /* 设置默认文本颜色 */
+    position: relative;                 /* 为绝对定位元素提供定位上下文 */
+    width: 100%;                        /* 占满视口宽度 */
+    height: 100%;                       /* 占满视口高度 */
 }
 
-/* 全局滚动条样式 */
+/* ========== 自定义滚动条样式 ========== */
+/* 目的：统一滚动条外观，与深色主题保持一致 */
+/* 兼容性：Webkit内核浏览器（Chrome、Safari、Edge）和Firefox */
+
+/* Webkit滚动条样式（Chrome、Safari、新版Edge） */
 *::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 8px;                         /* 垂直滚动条宽度 */
+    height: 8px;                        /* 水平滚动条高度 */
 }
 
 *::-webkit-scrollbar-track {
-    background: var(--scrollbar-track);
+    background: var(--scrollbar-track); /* 滚动条轨道背景（透明） */
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb);
-    border-radius: 4px;
+    background-color: var(--scrollbar-thumb);  /* 滚动条滑块颜色 */
+    border-radius: 4px;                 /* 圆角滑块，现代化外观 */
 }
 
+/* Firefox滚动条样式 */
 * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    scrollbar-width: thin;              /* 细滚动条 */
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);  /* 滑块和轨道颜色 */
 }
 
+/* 重复的Body样式（可能是历史遗留，需要清理） */
 body {
-    display: flex;
-    height: 100vh;
-    background-color: var(--background-dark);
-    color: var(--text-color);
+    display: flex;                      /* Flexbox布局 */
+    height: 100vh;                      /* 视口高度 */
+    background-color: var(--background-dark);  /* 深色背景 */
+    color: var(--text-color);           /* 文本颜色 */
 }
 
-/* 通用按钮样式 */
+/* ========== 通用组件基础样式 ========== */
+/* 目的：为所有交互元素提供一致的基础样式 */
+/* 使用场景：被具体组件样式继承和扩展 */
+
+/* 按钮基础样式：移除默认样式，统一交互行为 */
 button {
-    cursor: pointer;
-    border: none;
-    outline: none;
+    cursor: pointer;                    /* 鼠标悬停显示手型光标 */
+    border: none;                       /* 移除默认边框 */
+    outline: none;                      /* 移除焦点轮廓，使用自定义焦点样式 */
 }
 
-/* 通用链接样式 */
+/* 链接基础样式：统一链接外观和交互 */
 a {
-    color: var(--primary-color);
-    text-decoration: none;
+    color: var(--primary-color);        /* 使用主色调，保持品牌一致性 */
+    text-decoration: none;              /* 默认无下划线，简洁外观 */
 }
 
 a:hover {
-    text-decoration: underline;
+    text-decoration: underline;         /* 悬停时显示下划线，提供视觉反馈 */
 }
 
-/* 通用图标样式 */
+/* Font Awesome图标基础样式：统一图标间距 */
 .fas, .far, .fab {
-    margin-right: 5px;
+    margin-right: 5px;                  /* 图标与文本间的标准间距 */
 }
 
-/* 通用通知样式 */
+/* ========== 通知系统样式 ========== */
+/* 功能：全局消息提示组件，用于用户反馈 */
+/* 关联文件：ui.js中的showNotification函数 */
+/* 使用场景：操作成功/失败、系统提示、错误警告 */
+
+/* 通知基础样式：固定定位的浮动提示框 */
 .notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px 15px;
-    background-color: var(--secondary-color);
-    color: var(--light-text);
-    border-radius: 4px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    transition: opacity 0.5s ease;
+    position: fixed;                    /* 固定定位，不受页面滚动影响 */
+    top: 20px;                          /* 距离顶部20px */
+    right: 20px;                        /* 距离右侧20px，避免遮挡主要内容 */
+    padding: 10px 15px;                 /* 内边距，确保文本可读性 */
+    background-color: var(--secondary-color);  /* 默认背景色 */
+    color: var(--light-text);           /* 高对比度文本 */
+    border-radius: 4px;                 /* 圆角，现代化外观 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);  /* 阴影，增加层次感 */
+    z-index: 1000;                      /* 高层级，确保在最上层显示 */
+    transition: opacity 0.5s ease;      /* 淡入淡出动画 */
 }
 
+/* 成功通知：绿色背景，表示操作成功 */
 .notification.success {
-    background-color: var(--online-color);
+    background-color: var(--online-color);  /* 使用在线状态绿色 */
 }
 
+/* 错误通知：红色背景，表示操作失败或错误 */
 .notification.error {
-    background-color: var(--offline-color);
+    background-color: var(--offline-color); /* 使用离线状态红色 */
 }
 
+/* 警告通知：黄色背景，表示需要注意的信息 */
 .notification.warning {
-    background-color: #ffc107;
-    color: #212529;
+    background-color: #ffc107;          /* 标准警告黄色 */
+    color: #212529;                     /* 深色文本，确保在黄色背景上可读 */
 }
 
+/* 淡出动画：通知消失时的过渡效果 */
 .notification.fade-out {
-    opacity: 0;
+    opacity: 0;                         /* 透明度为0，配合transition实现淡出 */
 }

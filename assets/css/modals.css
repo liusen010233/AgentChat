@@ -1,110 +1,213 @@
 /**
- * 模态框和对话框样式
- * 包含所有模态框、设置面板和确认对话框样式
+ * ========== 模态框和对话框样式文件 ==========
+ * 
+ * 功能：定义应用中所有模态框、对话框和弹窗组件的样式
+ * 设计：采用统一的视觉风格和交互体验，支持多种模态框类型
+ * 
+ * 模态框类型覆盖：
+ *   1. 基础模态框：通用的模态框容器和内容区域
+ *   2. 表单模态框：创建群聊、设置修改等表单类型
+ *   3. 确认对话框：删除确认、操作确认等
+ *   4. 智能体简介：AI助手详细信息展示
+ *   5. 标签页模态框：多标签内容切换
+ * 
+ * 样式特性：
+ *   - 响应式设计：适配不同屏幕尺寸
+ *   - 动画效果：平滑的显示和隐藏过渡
+ *   - 主题适配：支持深色主题的颜色变量
+ *   - 无障碍：键盘导航和屏幕阅读器支持
+ * 
+ * 依赖：CSS变量（定义在base.css中）
+ * 关联：与ui.js中的模态框控制逻辑配合使用
  */
 
-/* 模态框基础样式 */
+/* ========== 模态框基础样式 ========== */
+/* 模态框遮罩层：覆盖整个视口的半透明背景 */
 .modal {
-    position: fixed;
+    position: fixed;        /* 固定定位，相对于视口 */
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);  /* 半透明黑色遮罩 */
+    display: none;          /* 默认隐藏，通过JS控制显示 */
+    align-items: center;    /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    z-index: 1000;         /* 确保在其他元素之上 */
 }
 
+/* 模态框内容容器：实际的模态框主体 */
 .modal-content {
-    background-color: var(--background-dark);
-    border-radius: 8px;
-    width: 500px;
-    max-width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    background-color: var(--background-dark);  /* 深色背景 */
+    border-radius: 8px;     /* 圆角边框 */
+    width: 500px;           /* 默认宽度 */
+    max-width: 90%;         /* 响应式最大宽度 */
+    max-height: 90vh;       /* 最大高度不超过视口 */
+    overflow-y: auto;       /* 内容溢出时显示滚动条 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);  /* 阴影效果 */
 }
 
+/* 模态框头部：包含标题和关闭按钮 */
 .modal-header {
-    padding: 15px 20px;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 15px 20px;     /* 内边距 */
+    border-bottom: 1px solid var(--border-color);  /* 底部分割线 */
+    display: flex;          /* 弹性布局 */
+    justify-content: space-between;  /* 两端对齐 */
+    align-items: center;    /* 垂直居中 */
 }
 
+/* 模态框标题文本 */
 .modal-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--light-text);
+    font-size: 18px;        /* 标题字体大小 */
+    font-weight: 600;       /* 字体粗细 */
+    color: var(--light-text);  /* 浅色文本 */
 }
 
-/* 新增：与 HTML 中使用的 close-modal 匹配的关闭按钮样式 */
+/* ========== 模态框关闭按钮样式 ========== */
+/**
+ * 模态框关闭按钮样式
+ * 功能：提供统一的模态框关闭按钮外观和交互效果
+ * 设计：采用传统的 × 符号，位于模态框右上角
+ * 交互：悬停时颜色加深，提供视觉反馈
+ * 兼容：适用于所有模态框类型，与HTML中使用的close-modal类名匹配
+ */
 .close-modal {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--accent-color);
+    background: none;       /* 无背景，保持简洁外观 */
+    border: none;          /* 无边框，避免视觉干扰 */
+    font-size: 1.5rem;     /* 较大的字体用于×符号，便于点击 */
+    cursor: pointer;       /* 鼠标悬停时显示手型，表明可点击 */
+    color: var(--accent-color);  /* 默认为辅助色，低调不突兀 */
+    transition: color 0.2s ease; /* 颜色变化的平滑过渡效果 */
 }
-.close-modal:hover { color: var(--light-text); }
+/* 关闭按钮悬停和聚焦状态：提供视觉反馈增强用户体验 */
+.close-modal:hover { 
+    color: var(--light-text);  /* 悬停时变为浅色，增强对比度 */
+}
 
-/* 交互设置区域布局优化 */
-.settings-section { margin-bottom: 20px; }
+/* ========== 设置区域布局样式 ========== */
+/* 设置区域容器：用于分组相关的设置项 */
+.settings-section { 
+    margin-bottom: 20px;   /* 区域间距 */
+}
+
+/* 设置区域标题 */
 .settings-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--light-text);
-  margin-bottom: 12px;
+    font-size: 16px;       /* 标题字体大小 */
+    font-weight: 600;      /* 字体粗细 */
+    color: var(--light-text);  /* 浅色文本 */
+    margin-bottom: 12px;   /* 标题与内容间距 */
 }
 
-/* 每项设置采用两列布局：左侧标签，右侧控件 */
+/* ========== 设置项布局 ========== */
+/* 设置项容器：采用网格布局实现左右对齐 */
 .setting-item {
-  display: grid;
-  grid-template-columns: 160px 1fr;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 16px;
+    display: grid;         /* 网格布局 */
+    grid-template-columns: 160px 1fr;  /* 左侧固定160px，右侧自适应 */
+    gap: 12px;            /* 列间距 */
+    align-items: center;   /* 垂直居中对齐 */
+    margin-bottom: 16px;   /* 设置项间距 */
 }
-.setting-label { color: var(--light-text); font-weight: 500; }
 
-/* 模式选择卡片化并可换行 */
+/* 设置项标签文本 */
+.setting-label { 
+    color: var(--light-text);  /* 浅色文本 */
+    font-weight: 500;      /* 中等字体粗细 */
+}
+
+/**
+ * 群聊模式选择卡片样式
+ * 功能：为用户提供直观的群聊模式选择界面
+ * 设计：卡片式布局，支持悬停和选中状态
+ * 交互：点击选择，视觉反馈清晰
+ * 应用：创建群聊和设置模态框中的模式选择
+ */
+/* 模式选择容器：支持卡片化布局并可换行 */
 .mode-selection.settings-mode {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
+  display: flex;            /* 弹性布局排列卡片 */
+  gap: 12px;               /* 卡片间距 */
+  flex-wrap: wrap;         /* 允许换行适应小屏幕 */
 }
-.mode-option {
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-  background-color: var(--background-lighter);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 10px 12px;
-  flex: 1 1 220px;
-  min-width: 220px;
-}
-.mode-option input { margin-top: 3px; }
-.mode-name { font-weight: 600; color: var(--light-text); }
-.mode-desc { font-size: 12px; color: var(--accent-color); }
 
-/* 别名：支持 HTML 中的 toggle-switch/toggle-slider 命名 */
-.toggle-switch { position: relative; display: inline-block; width: 50px; height: 24px; }
-.toggle-switch input { opacity: 0; width: 0; height: 0; }
+/* 单个模式选择卡片 */
+.mode-option {
+  display: flex;           /* 弹性布局内部元素 */
+  gap: 8px;               /* 内部元素间距 */
+  align-items: flex-start; /* 顶部对齐 */
+  background-color: var(--background-lighter); /* 浅色背景 */
+  border: 1px solid var(--border-color);       /* 边框 */
+  border-radius: 8px;     /* 圆角边框 */
+  padding: 10px 12px;     /* 内边距提供点击区域 */
+  flex: 1 1 220px;        /* 弹性增长，最小宽度220px */
+  min-width: 220px;       /* 确保最小宽度 */
+}
+
+/* 模式选项内的单选按钮：微调位置对齐 */
+.mode-option input { margin-top: 3px; }
+
+/* 模式名称：突出显示 */
+.mode-name { 
+  font-weight: 600;       /* 字体加粗 */
+  color: var(--light-text); /* 浅色文本 */
+}
+
+/* 模式描述：辅助说明文字 */
+.mode-desc { 
+  font-size: 12px;        /* 较小字体 */
+  color: var(--accent-color); /* 辅助色文本 */
+}
+
+/**
+ * 开关切换组件样式
+ * 功能：提供iOS风格的开关切换控件
+ * 设计：圆角滑块，支持选中和未选中状态
+ * 交互：平滑的滑动动画效果
+ * 应用：设置项的开关控制
+ * 别名：支持 HTML 中的 toggle-switch/toggle-slider 命名
+ */
+.toggle-switch { 
+    position: relative;      /* 相对定位作为滑块容器 */
+    display: inline-block;   /* 行内块元素 */
+    width: 50px;            /* 开关宽度 */
+    height: 24px;           /* 开关高度 */
+}
+
+/* 隐藏原生input元素 */
+.toggle-switch input { 
+    opacity: 0;             /* 透明隐藏 */
+    width: 0;               /* 无宽度 */
+    height: 0;              /* 无高度 */
+}
+
+/* 开关滑槽背景 */
 .toggle-slider {
-  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-  background-color: var(--background-lighter);
-  transition: .4s; border-radius: 24px;
+    position: absolute;      /* 绝对定位填满容器 */
+    cursor: pointer;         /* 指针样式表明可点击 */
+    top: 0; left: 0; right: 0; bottom: 0; /* 填满父容器 */
+    background-color: var(--background-lighter); /* 默认背景色 */
+    transition: .4s;         /* 背景色变化动画 */
+    border-radius: 24px;     /* 圆角边框 */
 }
+
+/* 开关滑块圆点 */
 .toggle-slider:before {
-  position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px;
-  background-color: white; transition: .4s; border-radius: 50%;
+    position: absolute;      /* 绝对定位 */
+    content: "";            /* 伪元素内容 */
+    height: 16px; width: 16px; /* 圆点尺寸 */
+    left: 4px; bottom: 4px;  /* 初始位置（左侧） */
+    background-color: white; /* 白色圆点 */
+    transition: .4s;         /* 位置变化动画 */
+    border-radius: 50%;      /* 圆形 */
 }
-.toggle-switch input:checked + .toggle-slider { background-color: var(--primary-color); }
-.toggle-switch input:checked + .toggle-slider:before { transform: translateX(26px); }
+
+/* 开关选中状态：背景色变化 */
+.toggle-switch input:checked + .toggle-slider { 
+    background-color: var(--primary-color); /* 主题色背景 */
+}
+
+/* 开关选中状态：滑块位置移动 */
+.toggle-switch input:checked + .toggle-slider:before { 
+    transform: translateX(26px); /* 向右移动26px */
+}
 
 /* 小屏优化：改为上下排列 */
 @media (max-width: 768px) {
@@ -119,13 +222,19 @@
     padding: 20px;
 }
 
-/* 新增：模态底部按钮与配色，匹配“取消/保存” */
+/**
+ * 模态框底部按钮区域样式
+ * 功能：为模态框提供统一的底部操作按钮布局
+ * 设计：右对齐按钮，顶部分割线，与模态框整体风格一致
+ * 布局：弹性布局，按钮间有间距
+ * 应用：所有模态框的底部操作区域，匹配"取消/保存"按钮
+ */
 .modal-footer {
-    padding: 15px 20px;
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    padding: 15px 20px;          /* 内边距与模态框头部保持一致 */
+    border-top: 1px solid var(--border-color); /* 顶部分割线 */
+    display: flex;               /* 弹性布局 */
+    justify-content: flex-end;   /* 按钮右对齐 */
+    gap: 10px;                  /* 按钮间距 */
 }
 
 .modal-btn {
@@ -160,373 +269,489 @@
     color: var(--accent-color);
 }
 
-/* 表单样式 */
+/**
+ * 模态框表单样式
+ * 功能：为模态框内的表单元素提供统一样式
+ * 设计：简洁现代的表单外观，良好的交互反馈
+ * 组件：标签、输入框、文本域、错误提示等表单元素
+ * 应用：创建群聊、设置等模态框中的表单
+ * 特性：支持深色主题，响应式设计，无障碍访问
+ */
+
+/* 表单组容器：为相关表单元素提供统一间距 */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 20px;     /* 表单组间距，确保视觉层次清晰 */
 }
 
+/* 表单标签样式：提供清晰的字段说明 */
 .form-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--light-text);
+    display: block;          /* 块级元素，独占一行 */
+    margin-bottom: 8px;      /* 与输入框的间距 */
+    font-weight: 600;        /* 字体加粗，突出重要性 */
+    color: var(--light-text); /* 浅色文本，保持可读性 */
 }
 
+/* 表单输入框基础样式：单行文本输入 */
 .form-input {
-    width: 100%;
-    padding: 10px 12px;
-    background-color: var(--background-lighter);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    color: var(--text-color);
-    font-size: 14px;
-    transition: border-color 0.2s ease;
+    width: 100%;             /* 全宽度，充分利用空间 */
+    padding: 10px 12px;      /* 内边距提供舒适的输入区域 */
+    background-color: var(--background-lighter); /* 浅色背景，与模态框区分 */
+    border: 1px solid var(--border-color);       /* 边框颜色与主题一致 */
+    border-radius: 4px;      /* 圆角边框，现代化外观 */
+    color: var(--text-color); /* 文本颜色适配主题 */
+    font-size: 14px;         /* 合适的字体大小，保证可读性 */
+    transition: border-color 0.2s ease; /* 边框颜色变化动画 */
 }
 
+/* 输入框聚焦状态：提供清晰的交互反馈 */
 .form-input:focus {
-    border-color: var(--primary-color);
-    outline: none;
+    border-color: var(--primary-color); /* 聚焦时边框变为主题色 */
+    outline: none;           /* 移除默认聚焦轮廓，使用自定义样式 */
 }
 
+/* 输入框占位符文本样式 */
 .form-input::placeholder {
-    color: var(--accent-color);
+    color: var(--accent-color); /* 使用辅助色，不干扰主要内容 */
 }
 
+/* 表单文本域样式：多行文本输入 */
 .form-textarea {
-    width: 100%;
-    padding: 10px 12px;
-    background-color: var(--background-lighter);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    color: var(--text-color);
-    font-size: 14px;
-    resize: vertical;
-    min-height: 100px;
-    transition: border-color 0.2s ease;
+    width: 100%;             /* 全宽度布局 */
+    padding: 10px 12px;      /* 与输入框保持一致的内边距 */
+    background-color: var(--background-lighter); /* 背景色与输入框统一 */
+    border: 1px solid var(--border-color);       /* 边框样式统一 */
+    border-radius: 4px;      /* 圆角边框 */
+    color: var(--text-color); /* 文本颜色 */
+    font-size: 14px;         /* 字体大小与输入框一致 */
+    resize: vertical;        /* 只允许垂直调整大小，避免破坏布局 */
+    min-height: 100px;       /* 最小高度确保足够的输入空间 */
+    transition: border-color 0.2s ease; /* 边框颜色变化动画 */
 }
 
+/* 文本域聚焦状态：与输入框保持一致的交互效果 */
 .form-textarea:focus {
-    border-color: var(--primary-color);
-    outline: none;
+    border-color: var(--primary-color); /* 聚焦时主题色边框 */
+    outline: none;           /* 移除默认轮廓 */
 }
 
+/* 文本域占位符样式：与输入框保持一致 */
 .form-textarea::placeholder {
-    color: var(--accent-color);
+    color: var(--accent-color); /* 辅助色占位符文本 */
 }
 
+/* 表单错误提示样式：为用户提供清晰的错误反馈 */
 .form-error {
-    color: var(--offline-color);
-    font-size: 12px;
-    margin-top: 5px;
+    color: var(--offline-color); /* 使用错误色（红色）突出显示 */
+    font-size: 12px;         /* 较小字体，不干扰主要内容 */
+    margin-top: 5px;         /* 与表单元素的间距 */
 }
 
-/* 按钮样式 */
+/**
+ * 模态框按钮样式系统
+ * 功能：为模态框提供统一的按钮外观和交互效果
+ * 设计：现代化按钮样式，支持多种类型和状态
+ * 类型：主要按钮、次要按钮、危险按钮等
+ * 交互：悬停效果、点击反馈、禁用状态
+ * 应用：模态框底部操作按钮、表单提交按钮等
+ */
+
+/* 按钮基础样式：所有按钮的通用属性 */
 .btn {
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    padding: 8px 16px;       /* 内边距提供合适的点击区域 */
+    border-radius: 4px;      /* 圆角边框，现代化外观 */
+    font-size: 14px;         /* 合适的字体大小 */
+    font-weight: 600;        /* 字体加粗，提升可读性 */
+    cursor: pointer;         /* 指针样式表明可点击 */
+    transition: background-color 0.2s ease, color 0.2s ease; /* 平滑的颜色变化动画 */
 }
 
+/* 主要按钮：用于主要操作（如保存、确认、创建） */
 .btn-primary {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
+    background-color: var(--primary-color); /* 主题色背景，突出重要性 */
+    color: white;            /* 白色文字确保对比度 */
+    border: none;            /* 无边框，简洁外观 */
 }
 
+/* 主要按钮悬停状态：提供视觉反馈 */
 .btn-primary:hover {
-    background-color: #0069d9;
+    background-color: #0069d9; /* 悬停时颜色加深，增强交互感 */
 }
 
+/* 次要按钮：用于次要操作（如取消、返回） */
 .btn-secondary {
-    background-color: transparent;
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
+    background-color: transparent; /* 透明背景，低调不突兀 */
+    color: var(--text-color); /* 主题文字颜色 */
+    border: 1px solid var(--border-color); /* 边框样式与主题一致 */
 }
 
+/* 次要按钮悬停状态：轻微的背景变化 */
 .btn-secondary:hover {
-    background-color: var(--hover-color);
+    background-color: var(--hover-color); /* 悬停时显示浅色背景 */
 }
 
+/* 危险按钮：用于危险操作（如删除、清除） */
 .btn-danger {
-    background-color: var(--offline-color);
-    color: white;
-    border: none;
+    background-color: var(--offline-color); /* 红色背景，警示危险操作 */
+    color: white;            /* 白色文字确保可读性 */
+    border: none;            /* 无边框，突出警示色 */
 }
 
+/* 危险按钮悬停状态：颜色加深增强警示效果 */
 .btn-danger:hover {
-    background-color: #c82333;
+    background-color: #c82333; /* 悬停时红色加深，强化警示 */
 }
 
-/* 单选按钮组 */
+/**
+ * 单选按钮组样式
+ * 功能：为模态框中的单选按钮提供美观的卡片式布局和交互
+ * 设计：卡片式单选选项，支持图标、标题和描述的完整展示
+ * 交互：整个卡片区域可点击，选中状态有明显的视觉反馈
+ * 应用：群聊模式选择、设置选项等需要图形化选择的场景
+ * 特性：支持键盘导航和无障碍访问，响应式布局
+ */
+
+/* 单选按钮组容器：水平排列的卡片式选项 */
 .radio-group {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
+    display: flex;           /* 弹性布局排列选项卡片 */
+    gap: 15px;              /* 卡片间距 */
+    margin-bottom: 20px;    /* 与下方元素的间距 */
 }
 
+/* 单个单选选项容器：支持弹性布局 */
 .radio-option {
-    flex: 1;
-    position: relative;
+    flex: 1;                /* 等宽分布，充分利用空间 */
+    position: relative;     /* 相对定位，为绝对定位的input提供参考 */
 }
 
+/* 隐藏原生单选按钮：使用自定义样式替代 */
 .radio-input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+    position: absolute;     /* 绝对定位移出视觉区域 */
+    opacity: 0;            /* 完全透明 */
+    width: 0;              /* 无宽度 */
+    height: 0;             /* 无高度 */
 }
 
+/* 单选按钮标签：卡片式外观，包含图标和文字 */
 .radio-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 15px 10px;
-    background-color: var(--background-lighter);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
+    display: flex;          /* 弹性布局排列内部元素 */
+    flex-direction: column; /* 垂直排列：图标、标题、描述 */
+    align-items: center;    /* 水平居中对齐 */
+    padding: 15px 10px;     /* 内边距提供舒适的点击区域 */
+    background-color: var(--background-lighter); /* 浅色背景与模态框区分 */
+    border: 1px solid var(--border-color);       /* 边框样式 */
+    border-radius: 4px;     /* 圆角边框 */
+    cursor: pointer;        /* 指针样式表明可点击 */
+    transition: all 0.2s ease; /* 所有属性的平滑过渡动画 */
+    text-align: center;     /* 文本居中对齐 */
 }
 
+/* 单选选项图标：视觉化表示选项类型 */
 .radio-icon {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: var(--accent-color);
+    font-size: 24px;        /* 较大的图标尺寸，突出显示 */
+    margin-bottom: 10px;    /* 与标题的间距 */
+    color: var(--accent-color); /* 默认为辅助色 */
 }
 
+/* 单选选项标题：主要的选项名称 */
 .radio-title {
-    font-weight: 600;
-    color: var(--light-text);
-    margin-bottom: 5px;
+    font-weight: 600;       /* 字体加粗，突出重要性 */
+    color: var(--light-text); /* 浅色文本，保持可读性 */
+    margin-bottom: 5px;     /* 与描述文字的间距 */
 }
 
+/* 单选选项描述：辅助说明文字 */
 .radio-desc {
-    font-size: 12px;
-    color: var(--accent-color);
+    font-size: 12px;        /* 较小字体，不干扰主要信息 */
+    color: var(--accent-color); /* 辅助色文本 */
 }
 
+/* 单选按钮选中状态：卡片外观变化 */
 .radio-input:checked + .radio-label {
-    border-color: var(--primary-color);
-    background-color: rgba(0, 123, 255, 0.1);
+    border-color: var(--primary-color); /* 边框变为主题色 */
+    background-color: rgba(0, 123, 255, 0.1); /* 浅色主题背景 */
 }
 
+/* 选中状态下的图标：颜色变化突出选中效果 */
 .radio-input:checked + .radio-label .radio-icon {
-    color: var(--primary-color);
+    color: var(--primary-color); /* 图标变为主题色 */
 }
 
-/* 开关样式 */
+/**
+ * 开关切换控件样式（备用版本）
+ * 功能：提供另一种风格的开关切换控件
+ * 设计：较小尺寸的开关，适用于一般设置项
+ * 交互：平滑的滑动动画，清晰的状态反馈
+ * 应用：一般的功能开关，如通知设置等
+ * 区别：与toggle-switch相比，样式略有不同，提供更多选择
+ */
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 24px;
+    position: relative;      /* 相对定位作为滑块容器 */
+    display: inline-block;   /* 行内块元素 */
+    width: 50px;            /* 开关宽度 */
+    height: 24px;           /* 开关高度 */
 }
 
+/* 隐藏原生input元素 */
 .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+    opacity: 0;             /* 透明隐藏 */
+    width: 0;               /* 无宽度 */
+    height: 0;              /* 无高度 */
 }
 
+/* 开关滑槽背景 */
 .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--background-lighter);
-    transition: .4s;
-    border-radius: 24px;
+    position: absolute;      /* 绝对定位填满容器 */
+    cursor: pointer;         /* 指针样式表明可点击 */
+    top: 0; left: 0; right: 0; bottom: 0; /* 填满父容器 */
+    background-color: var(--background-lighter); /* 默认背景色 */
+    transition: .4s;         /* 背景色变化动画 */
+    border-radius: 24px;     /* 圆角边框 */
 }
 
+/* 开关滑块圆点 */
 .slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 4px;
-    bottom: 4px;
-    background-color: var(--accent-color);
-    transition: .4s;
-    border-radius: 50%;
+    position: absolute;      /* 绝对定位 */
+    content: "";            /* 伪元素内容 */
+    height: 16px; width: 16px; /* 圆点尺寸 */
+    left: 4px; bottom: 4px;  /* 初始位置（左侧） */
+    background-color: var(--accent-color); /* 默认圆点颜色 */
+    transition: .4s;         /* 位置和颜色变化动画 */
+    border-radius: 50%;      /* 圆形 */
 }
 
+/* 开关选中状态：背景色变化 */
 input:checked + .slider {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* 主题色背景 */
 }
 
+/* 开关选中状态：滑块位置和颜色变化 */
 input:checked + .slider:before {
-    transform: translateX(26px);
-    background-color: white;
+    transform: translateX(26px); /* 向右移动26px */
+    background-color: white;     /* 选中时圆点变为白色 */
 }
 
-/* 确认对话框 */
+/**
+ * 确认对话框样式
+ * 功能：为危险操作提供二次确认界面
+ * 设计：紧凑的对话框，带有警示图标和明确的操作按钮
+ * 交互：平滑的显示动画，清晰的视觉层次
+ * 应用：删除操作、重要设置更改等需要确认的场景
+ * 特性：支持深色主题，响应式设计，动画效果
+ */
 .confirm-dialog {
-    background-color: var(--background-dark);
-    border-radius: 8px;
-    width: 350px;
-    max-width: 90%;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    transform: translateY(-20px);
-    transition: transform 0.3s ease;
+    background-color: var(--background-dark); /* 深色背景与主题一致 */
+    border-radius: 8px;     /* 圆角边框 */
+    width: 350px;           /* 固定宽度，适合确认内容 */
+    max-width: 90%;         /* 响应式最大宽度 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* 阴影效果增强层次感 */
+    transform: translateY(-20px); /* 初始位置向上偏移 */
+    transition: transform 0.3s ease; /* 平滑的位置变化动画 */
 }
 
+/* 确认对话框激活状态：动画效果 */
 .modal-overlay.active .confirm-dialog {
-    transform: translateY(0);
+    transform: translateY(0); /* 动画到正常位置 */
 }
 
+/* 确认对话框头部：包含图标和标题 */
 .confirm-header {
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    padding: 15px 20px;     /* 内边距 */
+    display: flex;          /* 弹性布局 */
+    align-items: center;    /* 垂直居中对齐 */
+    gap: 10px;             /* 图标与标题间距 */
 }
 
+/* 确认对话框警示图标 */
 .confirm-icon {
-    font-size: 24px;
-    color: var(--offline-color);
+    font-size: 24px;        /* 较大图标尺寸，突出警示效果 */
+    color: var(--offline-color); /* 红色警示色 */
 }
 
+/* 确认对话框标题 */
 .confirm-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--light-text);
+    font-size: 18px;        /* 标题字体大小 */
+    font-weight: 600;       /* 字体粗细 */
+    color: var(--light-text); /* 浅色文本 */
 }
 
+/* 确认对话框内容区域 */
 .confirm-body {
-    padding: 0 20px 20px;
-    color: var(--text-color);
+    padding: 0 20px 20px;   /* 内边距，顶部无padding避免与header重复 */
+    color: var(--text-color); /* 主题文本颜色 */
 }
 
+/* 确认对话框底部按钮区域 */
 .confirm-footer {
-    padding: 15px 20px;
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    padding: 15px 20px;     /* 内边距与header保持一致 */
+    border-top: 1px solid var(--border-color); /* 顶部分割线 */
+    display: flex;          /* 弹性布局 */
+    justify-content: flex-end; /* 按钮右对齐 */
+    gap: 10px;             /* 按钮间距 */
 }
 
-/* 标签页样式 */
+/**
+ * 标签页导航样式
+ * 功能：为模态框提供多标签页切换功能
+ * 设计：简洁的标签页导航，底部边框指示当前页
+ * 交互：悬停效果，活跃状态明确标识
+ * 应用：复杂设置界面、多步骤表单等场景
+ * 特性：支持键盘导航，无障碍访问
+ */
+
+/* 标签页导航容器 */
 .tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 20px;
+    display: flex;           /* 弹性布局水平排列标签 */
+    border-bottom: 1px solid var(--border-color); /* 底部分割线 */
+    margin-bottom: 20px;     /* 与内容区域的间距 */
 }
 
+/* 单个标签页按钮 */
 .tab {
-    padding: 10px 15px;
-    cursor: pointer;
-    color: var(--accent-color);
-    font-weight: 600;
-    position: relative;
+    padding: 10px 15px;      /* 内边距提供舒适的点击区域 */
+    cursor: pointer;         /* 指针样式表明可点击 */
+    color: var(--accent-color); /* 默认辅助色文字 */
+    font-weight: 600;        /* 字体加粗，提升可读性 */
+    position: relative;      /* 相对定位，为伪元素提供参考 */
 }
 
+/* 活跃标签页：突出显示当前选中的标签 */
 .tab.active {
-    color: var(--primary-color);
+    color: var(--primary-color); /* 主题色文字突出显示 */
 }
 
+/* 活跃标签页底部指示线：视觉化当前选中状态 */
 .tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
+    content: '';             /* 伪元素内容 */
+    position: absolute;      /* 绝对定位 */
+    bottom: -1px;           /* 位于标签底部 */
     left: 0;
-    right: 0;
-    height: 2px;
-    background-color: var(--primary-color);
+    right: 0;               /* 横跨整个标签宽度 */
+    height: 2px;            /* 指示线高度 */
+    background-color: var(--primary-color); /* 主题色指示线 */
 }
 
+/* 标签页内容区域：默认隐藏 */
 .tab-content {
-    display: none;
+    display: none;           /* 默认隐藏所有内容 */
 }
 
+/* 活跃标签页内容：显示当前选中的内容 */
 .tab-content.active {
-    display: block;
+    display: block;          /* 显示活跃标签的内容 */
 }
 
-/* 新增：智能体简介模态样式 */
+/**
+ * 智能体简介模态框样式
+ * 功能：展示智能体的详细信息和能力介绍
+ * 设计：卡片式布局，包含头像、基本信息、描述和能力列表
+ * 交互：平滑的显示/隐藏动画，响应式设计
+ * 应用：点击成员头像时显示智能体详细信息
+ * 特性：支持滚动内容，深色主题适配，优雅的动画效果
+ */
+
+/* 智能体简介模态框遮罩层：覆盖整个视口的半透明背景 */
 .agent-profile-modal {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1100;
-  animation: agentModalFadeIn .12s ease-out;
+  position: fixed;         /* 固定定位覆盖整个视口 */
+  inset: 0;               /* 简写属性，等同于 top:0; right:0; bottom:0; left:0 */
+  display: flex;          /* 弹性布局居中内容 */
+  align-items: center;    /* 垂直居中对齐 */
+  justify-content: center; /* 水平居中对齐 */
+  background: rgba(0, 0, 0, 0.5); /* 半透明黑色遮罩背景 */
+  z-index: 1100;          /* 高层级确保显示在其他模态框之上 */
+  animation: agentModalFadeIn .12s ease-out; /* 快速淡入动画 */
 }
 
+/* 智能体简介内容容器：实际的模态框主体 */
 .agent-profile-content {
-  position: relative;
-  background-color: var(--background-dark);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  width: 420px;
-  max-width: 92vw;
-  max-height: 86vh;
-  overflow: auto;
-  padding: 20px 22px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-  transform: translateY(8px);
-  animation: agentModalSlideUp .16s ease-out forwards;
+  position: relative;      /* 相对定位，为绝对定位的关闭按钮提供参考 */
+  background-color: var(--background-dark); /* 深色背景与主题一致 */
+  border: 1px solid var(--border-color);   /* 边框样式与主题统一 */
+  border-radius: 12px;     /* 较大的圆角，现代化外观 */
+  width: 420px;           /* 固定宽度，适合内容展示 */
+  max-width: 92vw;        /* 响应式最大宽度，适配小屏幕 */
+  max-height: 86vh;       /* 最大高度限制，避免超出视口 */
+  overflow: auto;         /* 内容溢出时显示滚动条 */
+  padding: 20px 22px;     /* 内边距提供舒适的内容间距 */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35); /* 深度阴影效果增强层次感 */
+  transform: translateY(8px); /* 初始位置轻微向下偏移 */
+  animation: agentModalSlideUp .16s ease-out forwards; /* 向上滑入动画 */
 }
 
+/* 智能体简介关闭按钮：位于右上角的关闭控件 */
 .close-profile {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  background: transparent;
-  border: none;
-  color: var(--accent-color);
-  font-size: 22px;
-  line-height: 1;
-  cursor: pointer;
+  position: absolute;      /* 绝对定位到容器右上角 */
+  top: 10px;              /* 距离顶部偏移 */
+  right: 12px;            /* 距离右侧偏移 */
+  background: transparent; /* 透明背景，保持简洁 */
+  border: none;           /* 无边框设计 */
+  color: var(--accent-color); /* 默认辅助色，低调不突兀 */
+  font-size: 22px;        /* 较大字体便于点击 */
+  line-height: 1;         /* 行高为1，确保垂直居中 */
+  cursor: pointer;        /* 指针样式表明可点击 */
 }
-.close-profile:hover { color: var(--light-text); }
 
+/* 关闭按钮悬停状态：提供视觉反馈 */
+.close-profile:hover { 
+  color: var(--light-text); /* 悬停时变为浅色，增强对比度 */
+}
+
+/* 智能体简介头部：包含头像和基本信息的区域 */
 .profile-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-.profile-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  background: #e0e0e0; /* 与智能体头像底色统一为浅灰 */
-  color: #333;
-}
-.profile-name {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--light-text);
-}
-.profile-description p {
-  font-size: 14px;
-  color: var(--text-color);
-  line-height: 1.6;
-  margin: 8px 0;
+  display: flex;          /* 弹性布局水平排列元素 */
+  align-items: center;    /* 垂直居中对齐 */
+  gap: 12px;             /* 头像与信息文字间距 */
+  margin-bottom: 12px;    /* 与描述内容的间距 */
 }
 
+/* 智能体头像：圆形头像显示智能体标识 */
+.profile-avatar {
+  width: 48px;            /* 头像宽度 */
+  height: 48px;           /* 头像高度 */
+  border-radius: 50%;     /* 圆形头像 */
+  display: inline-flex;   /* 行内弹性布局 */
+  align-items: center;    /* 垂直居中对齐 */
+  justify-content: center; /* 水平居中对齐 */
+  font-weight: 700;       /* 字体加粗，突出显示 */
+  background: #e0e0e0;    /* 与智能体头像底色统一为浅灰 */
+  color: #333;            /* 深色文字确保对比度 */
+}
+
+/* 智能体名称：显示智能体的主要标识名称 */
+.profile-name {
+  font-size: 20px;        /* 较大字体突出名称重要性 */
+  font-weight: 700;       /* 字体加粗 */
+  color: var(--light-text); /* 浅色文本保持可读性 */
+}
+
+/* 智能体描述段落：详细介绍智能体功能和特点 */
+.profile-description p {
+  font-size: 14px;        /* 适中的字体大小 */
+  color: var(--text-color); /* 主题文本颜色 */
+  line-height: 1.6;       /* 行高提升可读性 */
+  margin: 8px 0;          /* 段落间距 */
+}
+
+/* 模态框淡入动画：平滑的透明度变化 */
 @keyframes agentModalFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; }    /* 从完全透明开始 */
+  to { opacity: 1; }      /* 到完全不透明结束 */
 }
+
+/* 模态框滑入动画：向上滑动并淡入的组合效果 */
 @keyframes agentModalSlideUp {
-  from { transform: translateY(8px); opacity: .96; }
-  to { transform: translateY(0); opacity: 1; }
+  from { 
+    transform: translateY(8px); /* 从向下偏移8px开始 */
+    opacity: .96;         /* 从96%透明度开始 */
+  }
+  to { 
+    transform: translateY(0); /* 到正常位置结束 */
+    opacity: 1;           /* 到完全不透明结束 */
+  }
 }
+
+/* 智能体描述容器：包含详细描述文本的区域 */
 .profile-description{
-  margin-top:6px;
-  line-height:1.7;
-  color: var(--text-secondary, #c9c9c9);
+  margin-top: 6px;        /* 顶部间距与头部区分 */
+  line-height: 1.7;       /* 较大行高提升阅读体验 */
+  color: var(--text-secondary, #c9c9c9); /* 次要文本颜色，降低视觉权重 */
 }

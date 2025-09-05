@@ -1,261 +1,334 @@
 /**
- * 聊天区域样式
- * 包含聊天消息、输入框和附件样式
+ * ========== 聊天区域样式文件 ==========
+ * 功能：定义聊天消息显示、输入交互和附件处理的所有样式
+ * 核心组件：消息容器、消息气泡、输入区域、附件预览、提及功能
+ * 关联文件：chat_ui.html(HTML结构), chat.js(消息逻辑), ui.js(交互控制)
+ * 设计特点：支持AI和用户消息区分、响应式布局、流畅动画效果
  */
 
-/* 聊天消息区域 */
+/* ========== 聊天消息容器 ========== */
+/* 功能：承载所有聊天消息的滚动容器 */
+/* 布局：垂直排列消息，支持自动滚动到底部 */
+/* 关联组件：chat.js(消息渲染), ui.js(滚动控制) */
 .messages-container {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--background-dark);
+    flex: 1;                            /* 占用剩余空间，自适应高度 */
+    overflow-y: auto;                   /* 垂直滚动，处理长对话 */
+    padding: 20px;                      /* 内边距，消息与边界保持距离 */
+    display: flex;                      /* Flexbox布局，垂直排列消息 */
+    flex-direction: column;             /* 垂直方向，消息从上到下 */
+    background-color: var(--background-dark); /* 深色背景，突出消息内容 */
 }
 
+/* ========== 消息基础样式 ========== */
+/* 功能：定义单条消息的基础布局和对齐方式 */
+/* 设计：AI消息左对齐，用户消息右对齐，限制最大宽度保持可读性 */
 .message {
-    display: flex;
-    margin-bottom: 20px;
-    max-width: 80%;
+    display: flex;                      /* Flexbox布局，水平排列头像和内容 */
+    margin-bottom: 20px;                /* 底部间距，消息间分离 */
+    max-width: 80%;                     /* 最大宽度限制，避免消息过长 */
 }
 
+/* AI智能体消息：左对齐显示 */
 .message.agent-message {
-    align-self: flex-start;
+    align-self: flex-start;             /* 左对齐，表示来自AI */
 }
 
+/* 用户消息：右对齐显示，头像在右侧 */
 .message.user-message {
-    align-self: flex-end;
-    flex-direction: row-reverse;
+    align-self: flex-end;               /* 右对齐，表示来自用户 */
+    flex-direction: row-reverse;        /* 反向排列，头像移到右侧 */
 }
 
+/* ========== 消息头像样式 ========== */
+/* 功能：显示消息发送者的视觉标识 */
+/* 设计：圆形头像，统一尺寸，区分AI和用户 */
 .message-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--secondary-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: var(--light-text);
-    margin: 0 10px;
-    flex-shrink: 0;
+    width: 40px;                        /* 头像宽度，标准尺寸 */
+    height: 40px;                       /* 头像高度，保持正方形 */
+    border-radius: 50%;                 /* 圆形头像 */
+    background-color: var(--secondary-color); /* 默认背景色 */
+    display: flex;                      /* Flexbox布局，居中文字 */
+    align-items: center;                /* 垂直居中 */
+    justify-content: center;            /* 水平居中 */
+    font-weight: bold;                  /* 粗体文字，突出显示 */
+    color: var(--light-text);           /* 亮色文字，与背景对比 */
+    margin: 0 10px;                     /* 水平外边距，与消息内容分离 */
+    flex-shrink: 0;                     /* 不允许收缩，保持固定尺寸 */
 }
 
+/* ========== 消息内容容器 ========== */
+/* 功能：包含消息气泡和元信息的容器 */
+/* 布局：垂直排列，为头像预留空间 */
 .message-content {
-    display: flex;
-    flex-direction: column;
-    max-width: calc(100% - 60px);
+    display: flex;                      /* Flexbox布局，垂直排列子元素 */
+    flex-direction: column;             /* 垂直方向：信息 + 气泡 */
+    max-width: calc(100% - 60px);       /* 最大宽度，为头像预留空间 */
 }
 
+/* ========== 消息气泡基础样式 ========== */
+/* 功能：消息文本的主要容器，提供视觉层次 */
+/* 设计：圆角气泡，支持长文本换行，相对定位支持装饰元素 */
 .message-bubble {
-    padding: 12px 15px;
-    border-radius: 18px;
-    position: relative;
-    word-break: break-word;
+    padding: 12px 15px;                 /* 内边距，文本与边界保持距离 */
+    border-radius: 18px;                /* 大圆角，现代气泡设计 */
+    position: relative;                 /* 相对定位，支持伪元素装饰 */
+    word-break: break-word;             /* 长单词自动换行，避免溢出 */
 }
 
+/* AI智能体消息气泡：左侧气泡样式 */
 .agent-message .message-bubble {
-    background-color: var(--agent-bubble);
-    border-top-left-radius: 4px;
-    color: var(--light-text);
+    background-color: var(--agent-bubble); /* AI消息背景色，区分用户消息 */
+    border-top-left-radius: 4px;        /* 左上角小圆角，模拟对话尾巴 */
+    color: var(--light-text);           /* 亮色文字，保证可读性 */
 }
 
+/* 用户消息气泡：右侧气泡样式 */
 .user-message .message-bubble {
-    background-color: var(--user-bubble);
-    border-top-right-radius: 4px;
-    color: white;
+    background-color: var(--user-bubble); /* 用户消息背景色，通常为主题色 */
+    border-top-right-radius: 4px;       /* 右上角小圆角，模拟对话尾巴 */
+    color: white;                       /* 白色文字，与主题色背景对比 */
 }
 
+/* ========== 消息元信息区域 ========== */
+/* 功能：显示发送者姓名和发送时间 */
+/* 布局：水平排列，根据消息类型调整对齐方式 */
 .message-info {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
+    display: flex;                      /* Flexbox布局，水平排列元素 */
+    align-items: center;                /* 垂直居中对齐 */
+    margin-bottom: 5px;                 /* 底部间距，与消息气泡分离 */
 }
 
+/* AI消息的元信息：左对齐，与气泡左侧对齐 */
 .agent-message .message-info {
-    margin-left: 5px;
+    margin-left: 5px;                   /* 左边距，与气泡内边距对齐 */
 }
 
+/* 用户消息的元信息：右对齐，与气泡右侧对齐 */
 .user-message .message-info {
-    margin-right: 5px;
-    justify-content: flex-end;
+    margin-right: 5px;                  /* 右边距，与气泡内边距对齐 */
+    justify-content: flex-end;          /* 右对齐，与用户消息布局一致 */
 }
 
+/* ========== 消息发送者样式 ========== */
+/* 功能：显示消息发送者的姓名或标识 */
 .message-sender {
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--light-text);
+    font-weight: 600;                   /* 半粗体，突出发送者身份 */
+    font-size: 14px;                    /* 字体大小，保持可读性 */
+    color: var(--light-text);           /* 亮色文字，提高可读性 */
 }
 
+/* ========== 消息时间戳样式 ========== */
+/* 功能：显示消息的发送时间 */
+/* 设计：较小字体，次要颜色，不抢夺注意力 */
 .message-time {
-    font-size: 12px;
-    color: var(--accent-color);
-    margin-left: 10px;
+    font-size: 12px;                    /* 小字体，次要信息 */
+    color: var(--accent-color);         /* 强调色，保持主题一致性 */
+    margin-left: 10px;                  /* 左边距，与发送者名称分离 */
 }
 
+/* 用户消息时间戳：调整边距方向 */
 .user-message .message-time {
-    margin-left: 0;
-    margin-right: 10px;
+    margin-left: 0;                     /* 移除左边距 */
+    margin-right: 10px;                 /* 右边距，适配右对齐布局 */
 }
 
-/* 消息附件样式 */
+/* ========== 消息附件容器 ========== */
+/* 功能：显示文件、图片等附件内容 */
+/* 设计：卡片式布局，支持多种附件类型 */
+/* 关联：与chat.js中的附件处理逻辑配合 */
 .message-attachments {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
+    display: flex;                      /* Flexbox布局，水平排列附件 */
+    flex-wrap: wrap;                    /* 允许换行，适应多个附件 */
+    gap: 10px;                          /* 附件间距，保持视觉分离 */
+    margin-top: 10px;                   /* 顶部间距，与消息文本分离 */
 }
 
+/* ========== 单个附件容器 ========== */
+/* 功能：承载单个附件的显示容器 */
 .attachment {
-    background-color: var(--background-lighter);
-    border-radius: 8px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    max-width: 100%;
+    background-color: var(--background-lighter); /* 浅色背景，区分于消息背景 */
+    border-radius: 8px;                 /* 圆角，保持设计一致性 */
+    padding: 10px;                      /* 内边距，提供舒适的视觉空间 */
+    display: flex;                      /* Flexbox布局，水平排列图标和信息 */
+    align-items: center;                /* 垂直居中对齐 */
+    max-width: 100%;                    /* 最大宽度限制，避免溢出 */
 }
 
+/* ========== 附件类型图标 ========== */
+/* 功能：显示附件类型的视觉标识 */
 .attachment-icon {
-    font-size: 24px;
-    color: var(--accent-color);
-    margin-right: 10px;
+    font-size: 24px;                    /* 图标大小，保持视觉平衡 */
+    color: var(--accent-color);         /* 强调色，突出附件类型 */
+    margin-right: 10px;                 /* 右边距，与附件信息分离 */
 }
 
+/* ========== 附件信息容器 ========== */
+/* 功能：包含附件名称和大小的信息区域 */
 .attachment-info {
-    flex: 1;
-    min-width: 0;
+    flex: 1;                            /* 占据剩余空间，自适应宽度 */
+    min-width: 0;                       /* 最小宽度为0，支持文本省略 */
 }
 
+/* ========== 附件文件名 ========== */
+/* 功能：显示附件的文件名 */
 .attachment-name {
-    font-size: 14px;
-    color: var(--light-text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 14px;                    /* 标准字体大小，保证可读性 */
+    color: var(--light-text);           /* 亮色文字，保证对比度 */
+    white-space: nowrap;                /* 不换行，保持单行显示 */
+    overflow: hidden;                   /* 隐藏溢出内容 */
+    text-overflow: ellipsis;            /* 溢出时显示省略号 */
 }
 
+/* ========== 附件文件大小 ========== */
+/* 功能：显示附件的文件大小信息 */
 .attachment-size {
-    font-size: 12px;
-    color: var(--accent-color);
+    font-size: 12px;                    /* 小字体，次要信息 */
+    color: var(--accent-color);         /* 强调色，保持主题一致性 */
 }
 
+/* ========== 附件图片显示 ========== */
+/* 功能：显示图片类型的附件内容 */
 .attachment-image {
-    max-width: 300px;
-    max-height: 200px;
-    border-radius: 8px;
-    cursor: pointer;
+    max-width: 300px;                   /* 最大宽度限制，避免过大 */
+    max-height: 200px;                  /* 最大高度限制，保持布局稳定 */
+    border-radius: 8px;                 /* 圆角，保持设计一致性 */
+    cursor: pointer;                    /* 指针光标，提示可点击查看 */
 }
 
-/* 表格样式 */
+/* ========== 消息表格样式 ========== */
+/* 功能：在消息中显示结构化数据表格 */
+/* 设计：卡片式表格，支持数据展示和对比 */
+/* 关联：与chat.js中的表格渲染逻辑配合 */
 .message-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 10px 0;
-    font-size: 14px;
+    width: 100%;                        /* 全宽显示，充分利用空间 */
+    border-collapse: collapse;          /* 合并边框，避免双重边框 */
+    margin: 10px 0;                     /* 上下间距，与其他内容分离 */
+    font-size: 14px;                    /* 标准字体大小，保证可读性 */
 }
 
+/* 表格单元格通用样式 */
 .message-table th,
 .message-table td {
-    border: 1px solid var(--border-color);
-    padding: 8px 12px;
-    text-align: left;
+    border: 1px solid var(--border-color); /* 边框，分隔单元格 */
+    padding: 8px 12px;                  /* 内边距，提供舒适的阅读空间 */
+    text-align: left;                   /* 左对齐，保持数据可读性 */
 }
 
+/* 表格头部样式 */
 .message-table th {
-    background-color: var(--background-lighter);
-    color: var(--light-text);
-    font-weight: 600;
+    background-color: var(--background-lighter); /* 浅色背景，区分头部和数据 */
+    color: var(--light-text);           /* 亮色文字，保证对比度 */
+    font-weight: 600;                   /* 半粗体，突出头部重要性 */
 }
 
+/* 表格行斑马纹效果 */
 .message-table tr:nth-child(even) {
-    background-color: var(--background-darker);
+    background-color: var(--background-darker); /* 深色背景，提高数据可读性 */
 }
 
-/* 输入区域 */
+/* ========== 消息输入区域 ========== */
+/* 功能：用户输入消息和附件的主要区域 */
+/* 布局：固定在底部，包含文件预览和输入框 */
+/* 关联：与chat.js中的消息发送逻辑配合 */
 .input-container {
-    padding: 15px;
-    border-top: 1px solid var(--border-color);
-    background-color: var(--background-darker);
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    box-sizing: border-box;
+    padding: 15px;                      /* 内边距，提供舒适的操作空间 */
+    border-top: 1px solid var(--border-color); /* 顶部边框，分离输入区域 */
+    background-color: var(--background-darker); /* 深色背景，区分于消息区域 */
+    display: flex;                      /* Flexbox布局，垂直排列子元素 */
+    flex-direction: column;             /* 垂直方向：预览 + 输入框 */
+    width: 100%;                        /* 全宽显示，充分利用空间 */
+    box-sizing: border-box;             /* 边框盒模型，包含内边距和边框 */
 }
 
+/* ========== 文件预览容器 ========== */
+/* 功能：显示待发送的文件列表 */
+/* 交互：支持文件移除操作 */
 .file-preview-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 10px;
+    display: flex;                      /* Flexbox布局，水平排列文件 */
+    flex-wrap: wrap;                    /* 允许换行，适应多个文件 */
+    gap: 10px;                          /* 文件间距，保持视觉分离 */
+    margin-bottom: 10px;                /* 底部间距，与输入框分离 */
 }
 
+/* ========== 单个文件预览项 ========== */
+/* 功能：显示单个待发送文件的信息 */
 .file-preview {
-    background-color: var(--background-lighter);
-    border-radius: 8px;
-    padding: 8px 12px;
-    display: flex;
-    align-items: center;
-    max-width: 100%;
-    position: relative;
+    background-color: var(--background-lighter); /* 浅色背景，区分于输入区域 */
+    border-radius: 8px;                 /* 圆角，保持设计一致性 */
+    padding: 8px 12px;                  /* 内边距，提供舒适的点击区域 */
+    display: flex;                      /* Flexbox布局，水平排列元素 */
+    align-items: center;                /* 垂直居中对齐 */
+    max-width: 100%;                    /* 最大宽度限制，避免溢出 */
+    position: relative;                 /* 相对定位，支持绝对定位子元素 */
 }
 
+/* 文件预览图标 */
 .file-preview-icon {
-    font-size: 18px;
-    color: var(--accent-color);
-    margin-right: 10px;
+    font-size: 18px;                    /* 图标大小，保持视觉平衡 */
+    color: var(--accent-color);         /* 强调色，突出文件类型 */
+    margin-right: 10px;                 /* 右边距，与文件名分离 */
 }
 
+/* 文件预览名称 */
 .file-preview-name {
-    font-size: 14px;
-    color: var(--light-text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 200px;
+    font-size: 14px;                    /* 标准字体大小，保证可读性 */
+    color: var(--light-text);           /* 亮色文字，保证对比度 */
+    white-space: nowrap;                /* 不换行，保持单行显示 */
+    overflow: hidden;                   /* 隐藏溢出内容 */
+    text-overflow: ellipsis;            /* 溢出时显示省略号 */
+    max-width: 200px;                   /* 最大宽度限制，避免过长文件名 */
 }
 
+/* 文件移除按钮 */
 .file-preview-remove {
-    background: none;
-    border: none;
-    color: var(--accent-color);
-    cursor: pointer;
-    font-size: 14px;
-    padding: 5px;
-    margin-left: 10px;
+    background: none;                   /* 无背景，保持简洁 */
+    border: none;                       /* 无边框，融入设计 */
+    color: var(--accent-color);         /* 强调色，保持主题一致性 */
+    cursor: pointer;                    /* 指针光标，提示可点击 */
+    font-size: 14px;                    /* 标准字体大小，保持平衡 */
+    padding: 5px;                       /* 内边距，提供点击区域 */
+    margin-left: 10px;                  /* 左边距，与文件名分离 */
 }
 
+/* 移除按钮悬停效果 */
 .file-preview-remove:hover {
-    color: var(--offline-color);
+    color: var(--offline-color);        /* 悬停时变为警告色，提供反馈 */
 }
 
+/* ========== 输入操作区域 ========== */
+/* 功能：包含输入框和操作按钮的水平布局容器 */
+/* 布局：输入框占据主要空间，按钮紧凑排列 */
 .input-actions {
-    display: flex;
-    align-items: center;
-    background-color: var(--background-lighter);
-    border-radius: 8px;
-    padding: 5px;
-    width: 100%;
-    box-sizing: border-box;
+    display: flex;                      /* Flexbox布局，水平排列元素 */
+    align-items: center;                /* 垂直居中对齐 */
+    background-color: var(--background-lighter); /* 浅色背景，区分于输入区域 */
+    border-radius: 8px;                 /* 圆角，保持设计一致性 */
+    padding: 5px;                       /* 内边距，提供舒适的操作空间 */
+    width: 100%;                        /* 全宽显示，充分利用空间 */
+    box-sizing: border-box;             /* 边框盒模型，包含内边距和边框 */
 }
 
-/* Input textarea (match HTML .message-input) */
+/* ========== 消息输入框 ========== */
+/* 功能：用户输入消息文本的主要控件 */
+/* 特性：自适应高度，支持多行输入，无边框设计 */
+/* 关联：与chat.js中的消息发送和快捷键处理配合 */
 .message-input {
-  flex: 1;
-  padding: 10px;
-  background: none;
-  border: none;
-  color: var(--text-color);
-  font-size: 14px;
-  resize: none;
-  min-height: 40px;
-  max-height: 140px;
-  outline: none;
-  line-height: 1.5;
+  flex: 1;                              /* 占据剩余空间，自适应宽度 */
+  padding: 10px;                        /* 内边距，提供舒适的输入空间 */
+  background: none;                     /* 透明背景，融入父容器 */
+  border: none;                         /* 无边框，简洁设计 */
+  color: var(--text-color);             /* 主文字颜色，保证可读性 */
+  font-size: 14px;                      /* 标准字体大小，保证可读性 */
+  resize: none;                         /* 禁用手动调整大小 */
+  min-height: 40px;                     /* 最小高度，保持基本可用性 */
+  max-height: 140px;                    /* 最大高度，避免过度扩展 */
+  outline: none;                        /* 移除默认焦点轮廓 */
+  line-height: 1.5;                     /* 行高，提高文本可读性 */
 }
 
+/* 输入框占位符样式 */
 .message-input::placeholder {
-  color: var(--accent-color);
+  color: var(--accent-color);           /* 强调色，保持主题一致性 */
 }
 
 /* Messages container spacing */
@@ -395,51 +468,64 @@
     cursor: not-allowed;
 }
 
-/* 提及用户下拉菜单 */
+/* ========== 提及用户下拉菜单 ========== */
+/* 功能：在输入@符号时显示用户选择列表 */
+/* 设计：浮动菜单，支持键盘导航和鼠标选择 */
+/* 关联：与chat.js中的@提及功能配合 */
 .mention-dropdown {
-    position: absolute;
-    background-color: var(--background-darker);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 100;
-    width: 250px;
+    position: absolute;                 /* 绝对定位，浮动在输入框上方 */
+    background-color: var(--background-darker); /* 深色背景，区分于页面背景 */
+    border: 1px solid var(--border-color); /* 边框，定义菜单边界 */
+    border-radius: 4px;                 /* 圆角，保持设计一致性 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* 阴影，增加浮动感 */
+    max-height: 200px;                  /* 最大高度限制，避免过长 */
+    overflow-y: auto;                   /* 垂直滚动，处理长列表 */
+    z-index: 100;                       /* 高层级，确保在其他元素之上 */
+    width: 250px;                       /* 固定宽度，保证内容可读性 */
 }
 
+/* ========== 提及菜单项 ========== */
+/* 功能：显示单个用户的选择项 */
+/* 交互：支持悬停高亮和键盘选择 */
 .mention-item {
-    padding: 8px 12px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+    padding: 8px 12px;                  /* 内边距，提供舒适的点击区域 */
+    display: flex;                      /* Flexbox布局，水平排列元素 */
+    align-items: center;                /* 垂直居中对齐 */
+    cursor: pointer;                    /* 指针光标，提示可点击 */
 }
 
+/* 菜单项悬停效果 */
 .mention-item:hover {
-    background-color: var(--hover-color);
+    background-color: var(--hover-color); /* 悬停背景，提供视觉反馈 */
 }
 
+/* 菜单项选中状态 */
 .mention-item.selected {
-    background-color: var(--hover-color);
+    background-color: var(--hover-color); /* 选中背景，突出当前选项 */
 }
 
+/* ========== 提及菜单头像 ========== */
+/* 功能：在提及菜单中显示用户头像 */
+/* 设计：小尺寸圆形头像，支持颜色区分 */
 .mention-avatar {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: var(--secondary-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: var(--light-text);
-    margin-right: 10px;
-    font-size: 12px;
+    width: 24px;                        /* 固定宽度，保持头像一致性 */
+    height: 24px;                       /* 固定高度，保持头像一致性 */
+    border-radius: 50%;                 /* 圆形头像，现代设计风格 */
+    background-color: var(--secondary-color); /* 默认背景色 */
+    display: flex;                      /* Flexbox布局，居中显示文字 */
+    align-items: center;                /* 垂直居中对齐 */
+    justify-content: center;            /* 水平居中对齐 */
+    font-weight: bold;                  /* 粗体文字，突出头像标识 */
+    color: var(--light-text);           /* 亮色文字，与背景形成对比 */
+    margin-right: 10px;                 /* 右边距，与用户名分离 */
+    font-size: 12px;                    /* 小字体，适应头像尺寸 */
 }
 
+/* ========== 提及用户名称 ========== */
+/* 功能：显示用户的显示名称 */
 .mention-name {
-    font-size: 14px;
-    color: var(--light-text);
+    font-size: 14px;                    /* 标准字体大小，保证可读性 */
+    color: var(--light-text);           /* 亮色文字，保证对比度 */
 }
 
 /* Avatar color differentiation: agent (light gray), user (blue) */
@@ -453,23 +539,103 @@
     color: #ffffff;
 }
 
+/* ========== AI代理状态指示器 ========== */
+/* 功能：显示AI代理的当前工作状态 */
+/* 设计：小型状态标签，仅在特定状态下显示 */
+/* 关联：与chat.js中的AI状态管理逻辑配合 */
 .agent-status {
-  display: none; /* 默认不展示 */
-  align-items: center;
-  padding: 2px 6px;
-  border-radius: 8px;
-  font-size: 12px; /* 略小于名称字号 */
-  line-height: 1.2;
-  background-color: var(--background-lighter);
-  color: var(--light-text);
-  border: 1px solid var(--border-color);
+   display: none;                       /* 默认隐藏，仅在特定状态下显示 */
+   align-items: center;                 /* 垂直居中对齐 */
+   padding: 2px 6px;                    /* 紧凑内边距，保持小巧外观 */
+   border-radius: 8px;                  /* 圆角，保持设计一致性 */
+   font-size: 12px;                     /* 小字体，略小于用户名 */
+   line-height: 1.2;                    /* 紧凑行高，节省垂直空间 */
+   background-color: var(--background-lighter); /* 浅色背景，区分于消息区域 */
+   color: var(--light-text);            /* 亮色文字，保证可读性 */
+   border: 1px solid var(--border-color); /* 边框，定义状态标签边界 */
+ }
+ 
+ /* AI思考状态：显示处理中的状态 */
+ .agent-status.thinking {
+   display: inline-flex;                /* 仅在AI思考时显示 */
+ }
+ 
+ /* 在线/离线状态：完全隐藏 */
+ .agent-status.online,
+ .agent-status.offline {
+   display: none !important;            /* 强制隐藏在线/离线状态 */
+ }
+
+/* ========== 消息间距控制 ========== */
+/* 功能：控制相邻消息之间的垂直间距 */
+/* 设计：适中间距，保持对话流畅性 */
+.messages-container .message + .message {
+    margin-top: 15px;                   /* 消息间距，保持对话节奏 */
 }
 
-.agent-status.thinking {
-  display: inline-flex; /* 仅展示“思考中..” */
+/* ========== 消息气泡视觉增强 ========== */
+/* 功能：为消息气泡添加阴影和交互效果 */
+/* 设计：微妙阴影，悬停时增强，提升视觉层次 */
+.message-bubble {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* 轻微阴影，增加深度感 */
+    transition: all 0.2s ease;          /* 平滑过渡，优化交互体验 */
 }
 
-.agent-status.online,
-.agent-status.offline {
-  display: none !important; /* 隐藏在线/离线 */
+/* 气泡悬停效果 */
+.message-bubble:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* 悬停时加深阴影，提供反馈 */
+}
+
+/* ========== 消息元数据布局 ========== */
+/* 功能：显示消息的附加信息（状态、时间等） */
+/* 布局：水平排列，小字体，次要视觉权重 */
+.message-metadata {
+    display: flex;                      /* Flexbox布局，水平排列元素 */
+    align-items: center;                /* 垂直居中对齐 */
+    gap: 8px;                           /* 元素间距，保持视觉分离 */
+    margin-top: 4px;                    /* 顶部间距，与消息内容分离 */
+    font-size: 12px;                    /* 小字体，次要信息 */
+    color: var(--light-text);           /* 浅色文字，降低视觉权重 */
+}
+
+/* ========== 输入区域定位增强 ========== */
+/* 功能：将输入区域固定在底部，始终可见 */
+/* 设计：粘性定位，高层级，确保输入便利性 */
+.input-container {
+    position: sticky;                   /* 粘性定位，滚动时保持在底部 */
+    bottom: 0;                          /* 固定在底部 */
+    z-index: 10;                        /* 高层级，确保在其他元素之上 */
+}
+
+/* ========== 移动端响应式布局 ========== */
+/* 功能：针对小屏幕设备优化聊天界面 */
+/* 策略：缩小元素尺寸，调整间距，优化触控体验 */
+@media (max-width: 768px) {
+    /* 移动端消息间距调整 */
+    .message {
+        margin: 10px 0;                 /* 减小消息间距，节省屏幕空间 */
+    }
+    
+    /* 移动端头像尺寸调整 */
+    .message-avatar {
+        width: 32px;                     /* 缩小头像宽度，适应小屏幕 */
+        height: 32px;                    /* 缩小头像高度，保持比例 */
+        font-size: 14px;                 /* 调整头像文字大小 */
+    }
+    
+    /* 移动端消息气泡调整 */
+    .message-bubble {
+        padding: 10px 12px;              /* 减小内边距，优化空间利用 */
+        font-size: 14px;                 /* 调整字体大小，保持可读性 */
+    }
+    
+    /* 移动端输入区域调整 */
+    .input-container {
+        padding: 10px;                   /* 减小内边距，节省空间 */
+    }
+    
+    /* 移动端输入框优化 */
+    .message-input {
+        font-size: 16px;                 /* 16px字体防止iOS自动缩放 */
+    }
 }
