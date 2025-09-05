@@ -1,0 +1,16 @@
+/**
+ * 主样式文件
+ * 导入所有分类的CSS文件
+ */
+
+/* 导入基础样式 */
+@import url('base.css');
+
+/* 导入布局样式 */
+@import url('layout.css');
+
+/* 导入聊天样式 */
+@import url('chat.css');
+
+/* 导入模态框样式 */
+@import url('modals.css');

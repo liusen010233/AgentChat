@@ -1,0 +1,128 @@
+/**
+ * 基础样式
+ * 包含全局变量、重置样式和通用样式
+ */
+
+/* 全局变量 - 黑色系现代简约风格 */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #2a2a2a;
+    --accent-color: #888888;
+    --text-color: #e0e0e0;
+    --light-text: #f8f9fa;
+    --border-color: #444444;
+    --online-color: #28a745;
+    --offline-color: #dc3545;
+    --user-bubble: #007bff;
+    --agent-bubble: #2a2a2a;
+    --background-dark: #1a1a1a;
+    --background-darker: #121212;
+    --background-lighter: #333333;
+    --hover-color: #3a3a3a;
+    --scrollbar-thumb: #666666;
+    --scrollbar-track: transparent;
+}
+
+/* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    background-color: var(--background-dark);
+    color: var(--text-color);
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* 全局滚动条样式 */
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 4px;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background-color: var(--background-dark);
+    color: var(--text-color);
+}
+
+/* 通用按钮样式 */
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+/* 通用链接样式 */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 通用图标样式 */
+.fas, .far, .fab {
+    margin-right: 5px;
+}
+
+/* 通用通知样式 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: var(--secondary-color);
+    color: var(--light-text);
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+.notification.success {
+    background-color: var(--online-color);
+}
+
+.notification.error {
+    background-color: var(--offline-color);
+}
+
+.notification.warning {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.notification.fade-out {
+    opacity: 0;
+}

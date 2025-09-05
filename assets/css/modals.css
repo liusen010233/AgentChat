@@ -1,0 +1,532 @@
+/**
+ * 模态框和对话框样式
+ * 包含所有模态框、设置面板和确认对话框样式
+ */
+
+/* 模态框基础样式 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--background-dark);
+    border-radius: 8px;
+    width: 500px;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--light-text);
+}
+
+/* 新增：与 HTML 中使用的 close-modal 匹配的关闭按钮样式 */
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--accent-color);
+}
+.close-modal:hover { color: var(--light-text); }
+
+/* 交互设置区域布局优化 */
+.settings-section { margin-bottom: 20px; }
+.settings-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--light-text);
+  margin-bottom: 12px;
+}
+
+/* 每项设置采用两列布局：左侧标签，右侧控件 */
+.setting-item {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.setting-label { color: var(--light-text); font-weight: 500; }
+
+/* 模式选择卡片化并可换行 */
+.mode-selection.settings-mode {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.mode-option {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background-color: var(--background-lighter);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+  flex: 1 1 220px;
+  min-width: 220px;
+}
+.mode-option input { margin-top: 3px; }
+.mode-name { font-weight: 600; color: var(--light-text); }
+.mode-desc { font-size: 12px; color: var(--accent-color); }
+
+/* 别名：支持 HTML 中的 toggle-switch/toggle-slider 命名 */
+.toggle-switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--background-lighter);
+  transition: .4s; border-radius: 24px;
+}
+.toggle-slider:before {
+  position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px;
+  background-color: white; transition: .4s; border-radius: 50%;
+}
+.toggle-switch input:checked + .toggle-slider { background-color: var(--primary-color); }
+.toggle-switch input:checked + .toggle-slider:before { transform: translateX(26px); }
+
+/* 小屏优化：改为上下排列 */
+@media (max-width: 768px) {
+  .setting-item { grid-template-columns: 1fr; align-items: start; }
+}
+
+.modal-close:hover {
+    color: var(--light-text);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+/* 新增：模态底部按钮与配色，匹配“取消/保存” */
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.modal-btn.cancel {
+    background-color: var(--background-lighter);
+    color: var(--text-color);
+}
+
+.modal-btn.create {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+/* 新增：通用小灰色注释文本（群聊模式/超时设置等） */
+.mode-description {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+    margin-top: 5px;
+    margin-left: 2px;
+}
+
+/* 新增：字数限制显示为小灰字 */
+.char-limit {
+    font-size: 0.75rem;
+    color: var(--accent-color);
+}
+
+/* 表单样式 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--light-text);
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 12px;
+    background-color: var(--background-lighter);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.form-input::placeholder {
+    color: var(--accent-color);
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background-color: var(--background-lighter);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 14px;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.2s ease;
+}
+
+.form-textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.form-textarea::placeholder {
+    color: var(--accent-color);
+}
+
+.form-error {
+    color: var(--offline-color);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* 按钮样式 */
+.btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--hover-color);
+}
+
+.btn-danger {
+    background-color: var(--offline-color);
+    color: white;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* 单选按钮组 */
+.radio-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.radio-option {
+    flex: 1;
+    position: relative;
+}
+
+.radio-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px;
+    background-color: var(--background-lighter);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.radio-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--accent-color);
+}
+
+.radio-title {
+    font-weight: 600;
+    color: var(--light-text);
+    margin-bottom: 5px;
+}
+
+.radio-desc {
+    font-size: 12px;
+    color: var(--accent-color);
+}
+
+.radio-input:checked + .radio-label {
+    border-color: var(--primary-color);
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.radio-input:checked + .radio-label .radio-icon {
+    color: var(--primary-color);
+}
+
+/* 开关样式 */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--background-lighter);
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--accent-color);
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+    background-color: white;
+}
+
+/* 确认对话框 */
+.confirm-dialog {
+    background-color: var(--background-dark);
+    border-radius: 8px;
+    width: 350px;
+    max-width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .confirm-dialog {
+    transform: translateY(0);
+}
+
+.confirm-header {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.confirm-icon {
+    font-size: 24px;
+    color: var(--offline-color);
+}
+
+.confirm-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--light-text);
+}
+
+.confirm-body {
+    padding: 0 20px 20px;
+    color: var(--text-color);
+}
+
+.confirm-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* 标签页样式 */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 15px;
+    cursor: pointer;
+    color: var(--accent-color);
+    font-weight: 600;
+    position: relative;
+}
+
+.tab.active {
+    color: var(--primary-color);
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* 新增：智能体简介模态样式 */
+.agent-profile-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1100;
+  animation: agentModalFadeIn .12s ease-out;
+}
+
+.agent-profile-content {
+  position: relative;
+  background-color: var(--background-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  width: 420px;
+  max-width: 92vw;
+  max-height: 86vh;
+  overflow: auto;
+  padding: 20px 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  transform: translateY(8px);
+  animation: agentModalSlideUp .16s ease-out forwards;
+}
+
+.close-profile {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: var(--accent-color);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.close-profile:hover { color: var(--light-text); }
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  background: #e0e0e0; /* 与智能体头像底色统一为浅灰 */
+  color: #333;
+}
+.profile-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--light-text);
+}
+.profile-description p {
+  font-size: 14px;
+  color: var(--text-color);
+  line-height: 1.6;
+  margin: 8px 0;
+}
+
+@keyframes agentModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes agentModalSlideUp {
+  from { transform: translateY(8px); opacity: .96; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.profile-description{
+  margin-top:6px;
+  line-height:1.7;
+  color: var(--text-secondary, #c9c9c9);
+}
